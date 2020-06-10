@@ -15,18 +15,18 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.subway.board.controller.HomeController;
 
-@WebMvcTest(HomeController.class)
+@WebMvcTest(HomeController.class)	//homeComtorllerTest의 웹 페이지 테스트
 class HomeControllerTest {
 
 	@Autowired
-	private MockMvc mockMvc;
+	private MockMvc mockMvc;	//MockMvc 주입
 	
 	@Test
 	public void testHomePage() throws Exception {
-		mockMvc.perform(get("/"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("home"))
-		.andExpect(content().string(containsString("Welcome to...")));
+		mockMvc.perform(get("/"))	//GET "/" 요청 수행
+		.andExpect(status().isOk())	//HTTP200상태 확인
+		.andExpect(view().name("home"))	//뷰 페이지 이름 확인
+		.andExpect(content().string(containsString("Welcome to...")));	//뷰 페이지 콘텐츠에 문자 "Welcome to..." 포함확인
 	}
 
 	
