@@ -4,8 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,7 +64,7 @@ public class DesignSandWichController {
 	}
 	
 	@PostMapping	//design.html의 form에서 action이 없이 post 요청을 시도하면 기존의 get요청과 같은 경로로(/design) post요청을 전송한다.
-	public String processDesign(SandWich design) {
+	public String processDesign(@Valid SandWich design, Errors errors) {
 		//샌드위치 디자인(재료선택내역)을 저장한다.
 		//3장에서 할 것이다.
 		log.info("processing design: "+design);
