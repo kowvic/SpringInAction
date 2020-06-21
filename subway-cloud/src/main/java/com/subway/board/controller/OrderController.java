@@ -8,29 +8,40 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.subway.board.domain.Order;
+import com.subway.data.OrderRepository;
 
 import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @Controller
 @RequestMapping("/orders")
+@SessionAttributes("order")
 public class OrderController {
 
+	private OrderRepository orderRepo;
+	
+	public OrderController(OrderRepository orderRepo) {
+		this.orderRepo = orderRepo;
+	}
+	
 	@GetMapping("/current")
-	public String orderForm(Model model) {
-		model.addAttribute("order", new Order());
-		return "orderForm";		//3장에서 주문한 샌드위치 객체들을 db에 저장하도록 변경할 것이다.
+	public String orderForm() {
+		return "orderForm";	
 	}
 	
 	@PostMapping
-	public String processOrder(@Valid Order order, Errors errors) {
+	public String processOrder(@Valid Order order, Errors errors,
+			SessionStatus sessionStatus) {
 		if(errors.hasErrors()) {
 			return "orderForm";
 		}
 		
-		log.info("Order submited:" + order);
+		orderRepo.save(order);
+		sessionStatus.setComplete();
+		
 		return "redirect:/";
 	}
 }

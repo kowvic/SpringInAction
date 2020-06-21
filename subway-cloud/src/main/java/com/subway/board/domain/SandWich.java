@@ -1,5 +1,6 @@
 package com.subway.board.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,9 @@ import lombok.Data;
 
 @Data
 public class SandWich {
+	private long id;
+	
+	private Date createdAt;
 	
 	@NotNull
 	@Size(min=5, message="name must be at least 5 charcters long")
@@ -16,5 +20,5 @@ public class SandWich {
 	
 	@NotNull
 	@Size(min=5, message="you must choose at least 1 ingredient")
-	private List<String> ingredients;
+	private List<Ingredient> ingredients;
 }
