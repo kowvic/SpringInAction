@@ -60,8 +60,8 @@ public class JdbcOrderRepository implements OrderRepository{
 
 	private void saveSandWichToOrder(SandWich sandwich, long orderId) {
 		Map<String, Object> values = new HashMap<>();
-		values.put("sandOrder", orderId);
-		values.put("sand", sandwich.getId());
+		values.put("sandwichOrder", orderId);
+		values.put("sandwich", sandwich.getId());
 		orderSandWichInserter.execute(values);
 		
 	}
