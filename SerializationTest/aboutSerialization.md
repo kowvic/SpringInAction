@@ -1,8 +1,8 @@
 # 직렬화와 역직렬화
 
-[직렬화 역직렬화 설명](https://www.youtube.com/watch?v=qrQZOPZmt0w){: target="_blank"}
+[직렬화 역직렬화 설명](https://www.youtube.com/watch?v=qrQZOPZmt0w){: target="_blank" }
 
-[직렬화 역직렬화 예제](https://www.youtube.com/watch?v=variM5qJsQM){: target="_blank"}
+[직렬화 역직렬화 예제](https://www.youtube.com/watch?v=variM5qJsQM){: target="_blank" }
 
 
 1. **직렬화**(serialize)란
