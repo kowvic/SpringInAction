@@ -104,7 +104,8 @@ public class Test1 {
 
 }
 ```
-![bin파일 생성](C:\Users\김윤호\Documents\SpringInAction\SerializationTest\img\image1)
+![bin파일 생성](https://github.com/nowv30/SpringInActionTIL/tree/master/SerializationTest/img
+\image1)
 
 
 - Test2(역직렬화)
@@ -134,7 +135,8 @@ public class Test2 {
 }
 
 ```
-![역직렬화 결과 출력](C:\Users\김윤호\Documents\SpringInAction\SerializationTest\img\image2)
+![역직렬화 결과 출력](https://github.com/nowv30/SpringInActionTIL/tree/master/SerializationTest/img
+\image2)
 
 
 4. SerialVersionUID
@@ -143,15 +145,18 @@ public class Test2 {
   직렬화를 사용하는 오브젝트에는 serialVersionUID라는 것을 사용하기 때문이다.
 - UID를 변경하고 Test2(역직렬화)를 돌리면 bin파일이 버전이 맞지 않기 떄문에 읽어들이지 못한다.
 - 변경된 UID를 가지고 Test1(직렬화)를 다시 한다면 새로운 버전의 bin파일이 만들어진다.
-![SerialVersionUID추가](C:\Users\김윤호\Documents\SpringInAction\SerializationTest\img\image3)
+![SerialVersionUID추가](https://github.com/nowv30/SpringInActionTIL/tree/master/SerializationTest/img
+\image3)
 
 
 5. transient
 
 - 오브젝트 필드에 transient를 지정하면 직렬화 또는 역직렬화 할 때
   지정된 필드를 저장하거나 불러들이지 않는다.
-![transient 적용](C:\Users\김윤호\Documents\SpringInAction\SerializationTest\img\image4"id에 transient 적용")
-![역직렬화 확인](C:\Users\김윤호\Documents\SpringInAction\SerializationTest\img\image5"id값이 0으로 나온다.")
+![transient 적용](https://github.com/nowv30/SpringInActionTIL/tree/master/SerializationTest/img
+\image4"id에 transient 적용")
+![역직렬화 확인](https://github.com/nowv30/SpringInActionTIL/tree/master/SerializationTest/img
+\image5"id값이 0으로 나온다.")
 - transient 상태로 직렬화를 한다면 역직렬화 할 떄 입력값이 나타나지 않는다. 애초에 직렬화 할 때 관련 데이터가 저장되지 않는다.
 - 클래스 내에 암호 값이나 키 값을 속성 내에서 사용하는데 전송되거나 저장하면 안되는 값을 transient로 지정하면 좋다.
 
