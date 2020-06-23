@@ -150,8 +150,8 @@ public class Test2 {
 
 - 오브젝트 필드에 transient를 지정하면 직렬화 또는 역직렬화 할 때
   지정된 필드를 저장하거나 불러들이지 않는다.
-![transient 적용](./img/image4.png"id에 transient 적용")
-![역직렬화 확인](./img/image5.png"id값이 0으로 나온다.")
+![transient 적용](./img/image4.png "id에 transient 적용")
+![역직렬화 확인](./img/image5.png "id값이 0으로 나온다.")
 - transient 상태로 직렬화를 한다면 역직렬화 할 떄 입력값이 나타나지 않는다. 애초에 직렬화 할 때 관련 데이터가 저장되지 않는다.
 - 클래스 내에 암호 값이나 키 값을 속성 내에서 사용하는데 전송되거나 저장하면 안되는 값을 transient로 지정하면 좋다.
 
