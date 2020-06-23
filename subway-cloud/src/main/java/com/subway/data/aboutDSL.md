@@ -29,17 +29,15 @@ List<Order> readOrdersByDeliveryZipAndPlacedAtBetween(
 
 }
 ```
-|readOrdersByDeliveryZipAndPlacedAtBetween|
-|------|---|
-|read|이 메서드가 데이터를 읽을 것이라는 뜻(get이나 find도 여기에 허용된다.)
-개체의 수를 의미하는 정수를 반환하길 원하면 count를 쓰면 된다.|
-|orders|처리대상의 단어는 생략하거나 임의로 지정할 수 있다.(메소드를 읽기 쉽게 표현하면 된다.)
-CrudRepository에 매개변수로 지정된 타입 Order를 읽는다.|
-|By|일치 여부의 확인에 사용될 속성의 시작을 나타낸다.|
-|DeliveryZip|메서드 첫 번째 속성은 메서드의 첫 번째 인자로 받은 값과 반드시 같아야 한다.|
-|between|deliveryZip의 값이 메서드의 마지막 두 개 인자로 전달된 값(startDate, endDate) 사이에 포함하는 것이어야 함을 나타낸다.
-특정 값과 일치하는 값을 찾는 Equals도 있다.|
+readOrdersByDeliveryZipAndPlacedAtBetween 해석
 
+- read : 이 메서드가 데이터를 읽을 것이라는 뜻(get이나 find도 여기에 허용된다.)
+개체의 수를 의미하는 정수를 반환하길 원하면 count를 쓰면 된다.
+- orders : 처리대상의 단어는 생략하거나 임의로 지정할 수 있다.(메소드를 읽기 쉽게 표현하면 된다.)
+CrudRepository에 매개변수로 지정된 타입 Order를 읽는다.
+- By : 일치 여부의 확인에 사용될 속성의 시작을 나타낸다.
+- DeliveryZip|메서드 첫 번째 속성은 메서드의 첫 번째 인자로 받은 값과 반드시 같아야 한다.
+- between : deliveryZip의 값이 메서드의 마지막 두 개 인자로 전달된 값(startDate, endDate) 사이에 포함하는 것이어야 함을 나타낸다. 특정 값과 일치하는 값을 찾는 Equals도 있다.
 
 - 더욱 복잡한 쿼리의 경우 메서드 이름만으로 감당하기는 어렵다. 이럴떄 @Query()어노테이션을 사용하면 좋다.(어떤 쿼리를 수행할 때도 사용 가능하다.)
 ```java
