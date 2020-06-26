@@ -1,6 +1,8 @@
 # SpringInAction
 스프링인액션 연습
 
+- [200626 스프링 시큐리티 연습(미완)](https://github.com/nowv30/SpringInActionTIL/blob/master/aboutSecurity.md)
+
 - [200623 CrudRepository 커스터마이징](https://github.com/nowv30/SpringInActionTIL/blob/845abe5af76d6d31be441fa4109477abdfa54404/subway-cloud/src/main/java/com/subway/data/aboutDSL.md)
 
 - [200623 직렬화와 역직렬화](https://github.com/nowv30/SpringInActionTIL/blob/master/SerializationTest/aboutSerialization.md)
