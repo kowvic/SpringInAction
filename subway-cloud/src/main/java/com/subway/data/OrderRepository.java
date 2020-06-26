@@ -21,8 +21,9 @@ public interface OrderRepository
 			Date startDate, 
 			Date endDate);
 	
-	//배달된 도시들 중 '시에틀'에 배달된 모든 주문을 요청한다.
-	@Query("Select Order o where o.deliveryCity='seattle()'")
-	List<Order> readDeliveredInSeattle();
+	//배달된 도시들 중 '시에틀'에 배달된 모든 주문을 요청한다. 
+	//에러표시, 왜?
+//	@Query("Order o where o.deliveryCity='Seattle'")
+//	List<Order> readOrdersByDeliveredInSeattle();
 	
 }
