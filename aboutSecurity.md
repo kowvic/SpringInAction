@@ -179,7 +179,7 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	//groupAuthoritiesByUsername()도 호출하여 그룹 권한 쿼리도 대체할 수 있다.
 		auth.jdbcAuthentication()
 				.dataSource(dataSource)
-				.userByUsernameQuery("select username, password, enabled from users"+"where username=?")
+				.usersByUsernameQuery("select username, password, enabled from users"+"where username=?")
 				.authoritiesByUsernameQuery("select username, authority from authorities"+"where username=?")
 				//passwordEncoder 인터페이스를 구현하는 어떤 객체도 인자로 받는다.
 				//암호화 알고리즘을 구현한 스프링 시큐리티의 모듈에는 다음과 같은 구현 클래스가 포함되어 있다.
@@ -191,6 +191,7 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 				.passwordEncoder(new BCryptPasswordEncoder());
 }
 ```
+- 지금 작성한 SQL은 스프링 시큐리티의 것과 다른 데이터베이스(테이블이나 열의 이름이 다를 때)를 사용할 경우 시큐리티의 SQL 쿼리를 내가 사용하는 SQL 쿼리로 대체할 수 있다는 것을 보여준다. 여기에서는 기본 데이터베이스 테이블을 그냥 사용하였다.
 
 - 스프링 시큐리티의 기본 SQL 쿼리를 우리 것으로(테이블이나 열의 이름이 다를 때) 대체할 떄는 다음의 사항을 지켜야 한다.
 	- 매개변수(where절)는 하나이며 username이어야 한다.
@@ -199,3 +200,86 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	- 그리고 그룹 권한 쿼리에서는 각각 그룹 id, 그룹 이름group_name, 권한authority열을 갖는 0 또는 다수의 행을 반환할 수 있다.
 
 - 여기서 애플리케이션을 실행하여 로그인을 하면 에러표시 없이 로그인 대화상자만 다시 나타날 것이다. 이번에는 db에 저장된 비밀번호가 암호화 되지 않았기에 암호화로 넘어간 비밀번호와 맞지 않아서 생기는 문제이다.
+
+- 따라서 현재 작성한 configure() 메서드가 db정보를 읽어서 제대로 인증을 하는지 확인해 보려면 PasswordEncoder 인터페이스를 구현하되 비밀번호를 암호화하지 않는 클래스를 임시로 작성하고 사용해야 한다. security 패키지에 NoEncodingPasswordEncoder 클래스를 작성한다.
+```java
+package com.subway.security;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+//PasswordEncoder 인터페이스의 encode()와 matches() 메서드를 구현한다.
+public class NoEncodingPasswordEncoder implements PasswordEncoder{
+
+	@Override
+	//로그인 대화상자에서 입력된 비밀번호(rawPassword)를 암호화하지 않고 String으로 반환한다.
+	public String encode(CharSequence rawPassword) {
+		
+		return rawPassword.toString();
+	}
+
+	@Override
+	//encode에서 반환된 비밀번호를 db에서 가져온 비밀번호(encodedPassword)와 비교한다.
+	//결국 암호화되지 않은 두 객의 비밀번호를 비교하는 셈이다.
+	public boolean matches(CharSequence rawPassword, String encodedPassword) {
+		
+		return rawPassword.toString().equals(encodedPassword);
+	}
+}
+```
+- 이제 앞에서 변경한 configure()메소드에서 이 클래스를 비밀번호 인코더로 사용하도록 다음과 같이 변경하자.
+```java
+package com.subway.security;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.authorizeRequests()
+				.antMatchers("/design", "/orders")
+					.access("hasRole('ROLE_USER')")
+				.antMatchers("/", "/**")
+					.access("permitAll")
+			.and()
+				.httpBasic();
+	}
+	
+	
+	@Autowired
+	DataSource dataSource;
+	
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		/* in memory 사용자 스토어
+		 * auth.inMemoryAuthentication()
+			.withUser("user1")
+			.password("{noop}password1")
+			.authorities("ROLE_USER")
+			.and()
+			.withUser("user2")
+			.password("{noop}password2")
+			.authorities("ROLE_USER");
+		*/
+		
+			auth.jdbcAuthentication()
+				.dataSource(dataSource)
+				.usersByUsernameQuery("select username, password, enabled from users"+"where username=?")
+				.authoritiesByUsernameQuery("select username, authority from authorities"+"where username=?")
+				.passwordEncoder(new NoEncodingPasswordEncoder()//변경된 부분);
+		
+		
+	}
+}
+	
+
+
+```
