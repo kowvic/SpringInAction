@@ -287,6 +287,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ```
 
 ## LDAP 기반 사용자 스토어
+
+### LDAP 개념 자체가 어려워서 책으로 읽고 넘어간다. LDAP 설명 링크를 참조하여 다음에 확인하도록 하자
+#### [LDAP설명](https://ldap.or.kr/ldap-%EC%9D%B4%EB%9E%80/){: target="_blank" }
 - LDAP의 기본 인증 전략은 사용자가 직접 LDAP 서버에서 인증받도록 하는 것이다. 그러나 비밀번호를 비교하는 방법도 있다.
 - 비밀번호 비교방법은 입력된 비밀번호를 LDAP 디렉터리에 전송한 후, 이 비밀번호를 사용자의 비밀번호 속성 값과 비교하도록 LDAP 서버에 요청한다. 이 때 비밀번호 비교는 LDAP 서버에서 수행되어 비밀번호가 노출되지 않는다.
 ```xml
