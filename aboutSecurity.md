@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/**")
 					.access("permitAll")//특정 경로에 모두 접근권한
 			.and()
-				.httpBasic();
+				.httpBasic();//http기본 인증환경을 구성한다.
 
 	}
 
