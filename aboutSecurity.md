@@ -276,10 +276,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authoritiesByUsernameQuery("select username, authority from authorities"+"where username=?")
 				.passwordEncoder(new NoEncodingPasswordEncoder()//변경된 부분);
 		
-		
+/* 저장 후 애플리케이션을 실행한 다음 user1, password1을 누르면 로그인이 되어 design페이지로 넘어가야 한다.
+ * 하지만 무슨 문제인지 로그인 창만 계속 반복해서 뜬다. 로그인이 안되어 돌아간다는 뜻이다.
+*/		
 	}
 }
-	
-
-
 ```
