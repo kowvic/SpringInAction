@@ -1,6 +1,6 @@
 drop table if exists users;
-	drop table if exists authorities;
-	drop index if exists ix_auth_username;
+drop table if exists authorities;
+drop index if exists ix_auth_username;
 
 	create table if not exists users(
 		username varchar2(50) not null primary key,
