@@ -3,7 +3,7 @@
 
 - [200627 스프링 시큐리티 연습(2)](https://github.com/nowv30/SpringInActionTIL/blob/master/subway-cloud/src/main/java/com/subway/security/aboutCustomizedAuthentication.md)
 
-- [200626 스프링 시큐리티 연습(1)](https://github.com/nowv30/SpringInActionTIL/blob/master/aboutSecurity.md)
+- [200626 스프링 시큐리티 연습(1)](https://github.com/nowv30/SpringInActionTIL/blob/master/subway-cloud/src/main/java/com/subway/security/aboutSecurity.md)
 
 - [200623 CrudRepository 커스터마이징](https://github.com/nowv30/SpringInActionTIL/blob/845abe5af76d6d31be441fa4109477abdfa54404/subway-cloud/src/main/java/com/subway/data/aboutDSL.md)
 
