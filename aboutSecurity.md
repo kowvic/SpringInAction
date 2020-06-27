@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	//사용자 인증 정보를 구성하는 메서드.
 	//사용자 스토어를 여기에서 구성한다.
+	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {//
 		auth.inMemoryAuthentication()
 			.withUser("user1")
