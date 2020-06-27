@@ -278,7 +278,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 /* 저장 후 애플리케이션을 실행한 다음 user1, password1을 누르면 로그인이 되어 design페이지로 넘어가야 한다.
  * 하지만 무슨 문제인지 로그인 창만 계속 반복해서 뜬다. 로그인이 안되어 돌아간다는 뜻이다.
+ * usersByUsernameQuery와 authoritiesByUsernameQuery를 주석처리하고 실행하면 로그인이 잘 진행된다.
+ * h2콘솔 mem:testdb에 접근이 안된다. 비밀번호 설정을 따로 안했는데 403에러(로그인)가 뜬다. 책에 해결책이 나오는지 확
+ * 인하자.
 */		
 	}
 }
+```
+
+## LDAP 기반 사용자 스토어
+- LDAP의 기본 인증 전략은 사용자가 직접 LDAP 서버에서 인증받도록 하는 것이다. 그러나 비밀번호를 비교하는 방법도 있다.
+- 비밀번호 비교방법은 입력된 비밀번호를 LDAP 디렉터리에 전송한 후, 이 비밀번호를 사용자의 비밀번호 속성 값과 비교하도록 LDAP 서버에 요청한다. 이 때 비밀번호 비교는 LDAP 서버에서 수행되어 비밀번호가 노출되지 않는다.
+```xml
+<!-- 
+스프링 시큐리티에서 제공하는 내장 LDAP 서버이다.
+내장 LDAP 서버를 사용할 때는 원격 LDAP 서버의 URL을 설정하는 대신 root() 메소드를 사용해서 내장 LDAP 서버의 루트 경로를 지정할 수 있다.
+-->
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-ldap</artifactId>
+</dependency>
+```
+
+```java
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+/* LDAP 기본 쿼리는 비어 있어서 쿼리에 의한 검색이 LDAP 계층의 루트로부터 수행된다.
+ * 아래는 userSearchBase와 groupSearchBase를 이용해서 쿼리의 기준점을 지정하여 계층을 변경한다.
+ * user는 people 구성단위(Organizational Unit. ou)부터, group은 groups 구성단위부터 검색이 시작된다.
+*/
+		auth
+			.ldapAuthentication()
+				.userSearchBase("ou=people")    //사용자를 찾기 위한 기준점 쿼리를 제공한다.
+				.userSearchFilter("(uid={0})")  //LDAP 기본 쿼리의 필터를 제공하기 위해 사용
+				.groupSearchBase("ou=groups")   //그룹을 찾기 위한 기준점 쿼리를 지정한다.
+				.groupSearchFilter("member={0}")//LDAP 기본 쿼리의 필터를 제공하기 위해 사용
+				.contextSource()
+				.root("dc=sandwich,dc=com")
+				.ldif("classpath:users.ldif")
+				.and()
+				.passwordCompare()              //비밀번호를 비교하는 방법으로 LDAP 인증을 한다.
+				.passwordEncoder(new BCryptPasswordEncoder())//비밀번호 암호화 인코더
+				.passwordAttribute("userPasscode");//비밀번호 속성의 이름을 지정
+			
+			//전달된 비밀번호와 userPasscode 속성 값이 비교되어야 한다는 것을 지정한다.
+			//비밀번호 속성 이름을 변경하지 않으면 기본적으로 userPassword가 된다.
+		
+	}
 ```
