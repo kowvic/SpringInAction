@@ -1,7 +1,7 @@
 # SpringInAction
 스프링인액션 연습
 
-- [200627 스프링 시큐리티 연습(2)]()
+- [200627 스프링 시큐리티 연습(2)](https://github.com/nowv30/SpringInActionTIL/blob/master/subway-cloud/src/main/java/com/subway/security/aboutCustomizedAuthentication.md)
 
 - [200626 스프링 시큐리티 연습(1)](https://github.com/nowv30/SpringInActionTIL/blob/master/aboutSecurity.md)
 
