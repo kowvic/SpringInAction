@@ -91,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 - 다음은 패스에 보안을 적용하기 위한 메소드이다.
   
 | 메소드 | 동작 |
-|:--------|:--------:|
+|:--------|:--------|
 |**access(String)** | <center>주어진 SpEL 표현식의 평가 결과가 true이면 접근 허용</center> |
 |**anonymous()** | <center>익명의 사용자의 접근을 허용 </center> |
 |**authenticated()** | <center>인증된 사용자의 접근을 허용 </center> |
