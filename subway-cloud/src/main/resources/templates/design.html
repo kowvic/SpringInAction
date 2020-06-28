@@ -9,9 +9,14 @@
 
 <body>
 	<h1>Design your Sandwich!</h1>
+	<h2>Feelin' hungry, <sapn th:text="${user.fullname}">Name</sapn>?</h2>
 	<img th:src="@{/images/SubwayLogo.jpg}"/>
 	
-	<form method ="POST" th:object="${sandwich}">
+	<form method="POST" th:action="@{/logout}" id="logoutForm">
+		<input type="submit" value="Logout"/>
+	</form>
+	
+	<form method ="POST" th:object="${sandwich}" th:action="@{/design}" id="sandwichForm">
 	<span class="validationError"
 		th:if="${#fields.hasErrors('ingredients')}"
 		th:errors="*{ingredients}">Ingredient Error</span>

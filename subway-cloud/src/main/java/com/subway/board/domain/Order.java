@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -16,6 +17,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
+
+import com.subway.User;
 
 import lombok.Data;
 
@@ -32,6 +35,9 @@ public class Order implements Serializable{
 	private long id;
 	
 	private Date placedAt;
+	
+	@ManyToOne
+	private User user;
 	
 	@NotBlank(message="name is required")
 	private String deliveryName;

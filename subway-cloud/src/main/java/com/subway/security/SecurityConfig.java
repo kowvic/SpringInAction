@@ -19,20 +19,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests()
-				.antMatchers("/design", "/orders")
-					.access("hasRole('ROLE_USER')")
-				.antMatchers("/", "/**")
-					.access("permitAll")
-			.and()
-				.httpBasic();
+		.authorizeRequests()
+		 .antMatchers("/design", "/orders")
+		  .access("hasRole('ROLE_USER')")
+		 .antMatchers("/", "/**")
+		  .access("permitAll")
+		.and()
+		 .formLogin()
+		  .loginPage("/login")
+		.and()
+		 .logout()
+		   .logoutSuccessUrl("/")
+		.and()
+		  .csrf();
+		/*
+		 * .authorizeRequests()
+			.antMatchers("/", "/**")
+			.permitAll();
+			.antMatchers("/design", "/orders")
+			.hasRole("ROLE_USER")
+			이렇게 antMatchers의 순서가 바뀌면 모든 요청의 사용자가 접근가능해지고 
+			/design, /orders의 요청은 효력이 없어진다.
+			 * 150p확인
+			 */
 	}
-	
-	
-	@Autowired
-	DataSource dataSource;
+
 	@Autowired
 	private UserDetailsService userDetailsService;
+	@Autowired
+	DataSource dataSource;
 	@Bean
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();

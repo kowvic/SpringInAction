@@ -7,6 +7,11 @@
 </head>
 <body>
 	<h1>Welcome to...</h1>
-	<a href="http://localhost:8080/design"><img th:src="@{/images/SubwayLogo.jpg}"/></a>
+	<img th:src="@{/images/SubwayLogo.jpg}"/>
+	
+	<form method="POST" th:action="@{/logout}" id="logoutForm">
+		<input type="submit" value="Logout"/>
+	</form>
+	<a th:href="@{/design}" id="design">Design a SandWich</a>
 </body>
 </html>
