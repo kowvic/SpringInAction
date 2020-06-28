@@ -17,9 +17,16 @@
 			<scope>test</scope>
 ```
 
-![스프링 시큐리티 Http기본 인증 대화상자](......./img/2020-06-26 193432.png)
+![스프링 시큐리티 Http기본 인증 대화상자](SpringInAction\subway-cloud\img\2020-06-26 193432.png)
 
-2. 보안 스타터를 프로젝트 빌드 파일에 추가만 했을 때는 다음위 보안 구성이 제공된다.
+2. 인증과 인가
+
+- 인증 Authntication은 '증명하다'라는 의미로 **로그인 하는 과정**을 의미한다.
+- 인가 Authorization은 '권한부여'나 '허가'와 같은 의미. **허용(Access)**하는 것을 의미한다.
+- 윕에서 인증은 해당 URL을 보안 절차를 거친 사용자들만 접근할 수 있다는 의미이고
+- 웹에서 인가는 URL의 접근한 사용자가 특정한 자격이 있다는 것을 의미한다.
+
+3. 보안 스타터를 프로젝트 빌드 파일에 추가만 했을 때는 다음위 보안 구성이 제공된다.
 
 - 모든 HTTP 요청 경로는 인증(authenticaion)되어야 한다.
 - 어떤 특정 역할이나 권한이 없다.
@@ -27,7 +34,7 @@
 - 스프링 시큐리티의 HTTP 기본 인증을 사용해서 인증된다.
 - 사용자는 하나만 있으며, 이름은 user이다. 비밀번호는 암호화해 준다.(콘솔에 표시)
 
-3. 보안을 제대로 구축하려면 더 많은 작업이 필요하며, 최소한 다음 기능을 할 수 있도록 스프링 시큐리티를 구성해야 한다.
+4. 보안을 제대로 구축하려면 더 많은 작업이 필요하며, 최소한 다음 기능을 할 수 있도록 스프링 시큐리티를 구성해야 한다.
 
 - 직접 만든 로그인 페이지로 인증한다.
 - 다수의 사용자를 제공하며, 새로운 고객이 사용자로 등록할 수 있는 페이지가 있어야 한다.
@@ -46,12 +53,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	//HTTP보안을 구성하는 메서드
+	//authorizeRequest().antMatchers().'패스에 보안을 적용하는 메소드'
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()//시큐리티 처리에 HttpServletRequest를 이용하는 것을 의미한다.
-				.antMatchers("/design", "/orders")// 특정 경로를 지정한다.
-					.access("hasRole('ROLE_USER')")// role('user')를 사용해도 된다. 권한명칭은 변경 가능(UESR 부분)
+				.antMatchers("/design", "/orders")// 패스(경로)가 /design, /orders인 요청은 인증되어야 함을 명시. 
+					.access("hasRole('ROLE_USER')")// hasRole('ROLE_USER')를 사용해도 된다. 
 
+					//스프링 표현식 보안. access()메소드를 사용하면 접근 요구사항을 선언하는 수단으로 SpEL을 사용할 수 있다.
+					
 				.antMatchers("/", "/**")
 					.access("permitAll")//특정 경로에 모두 접근권한
 			.and()
@@ -78,12 +88,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 }	
 ```
-
-4. 인증과 인가
-- 인증 Authntication은 '증명하다'라는 의미로 **로그인 하는 과정**을 의미한다.
-- 인가 Authorization은 '권한부여'나 '허가'와 같은 의미. **허용(Access)**하는 것을 의미한다.
-- 윕에서 인증은 해당 URL을 보안 절차를 거친 사용자들만 접근할 수 있다는 의미이고
-- 웹에서 인가는 URL의 접근한 사용자가 특정한 자격이 있다는 것을 의미한다.
+- 다음은 패스에 보안을 적용하기 위한 메소드이다.
+|  <center>메소드</center> |  <center>동작</center> |
+|:--------|:--------:|--------:|
+|**access(String)** | <center>주어진 SpEL 표현식의 평가 결과가 true이면 접근 허용</center> |
+|**anonymous()** | <center>익명의 사용자의 접근을 허용 </center> |
+|**authenticated()** | <center>인증된 사용자의 접근을 허용 </center> |
+|**denyAll()** | <center>무조건 접근금지 </center> |
+|**fullyAuthenticated()** | <center>사용자가 완전히 인증되면 접근허용(기억되지않음) </center> |
+|**hasAnyAuthority(String)** | <center>사용자가 주어진 권한 중 어떤 것이라도 있다면 접근허용</center> |
+|**hasAnyRole(String)** | <center>사용자가 주어진 역할 중 어떤 것이라도 있다면 접근을 허용</center> |
+|**hasAuthority(String)** | <center>사용자가 주어진 권한이 있다면 접근을 허용 </center> |
+|**hasIpAddress(String)** | <center>주어진 IP로부터 요청이 왔다면 접근을 허용</center> |
+|**hasRole(String)** | <center>사용자가 주어진 역할이 있다면 접근을 허용 </center> |
+|**not()** | <center>다른 접근방식의 효과를 무효화</center> |
+|**permitAll()** | <center>무조건 접근 허용</center> |
+|**rememberMe()** | <center>기억하기를 통해 인증된 사용자의 접근을 허용</center> |
 
 
 ## 사용자 스토어
@@ -124,11 +144,22 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 			.dataSource(dataSource);
 
 		//이 메서드를 실행하면 다음과 같은 코드가 실행된다.(사용자 정보 저장 테이블 생성)
-		//public static final String DEF_USERS_BY_USERNAME_QUERY =
+		//public static final String DEF_USERS_BY_USERNAME_QUERY = (이름 비밀번호, 사용가능 활성화 여부 검색)
 		// "select username, password, enabled" +
 		// "from users" +
-		// "where username=?";
-		// ....(생략)
+		// where username =?";
+
+		//public satic final String DEF_AUTHORITIES_BY_USERNAME_QUERY = (사용자 권한 찾기)
+		// "select username,authority" +
+		// "from authorities" +
+		// "where username =?";
+
+		//public static final String DEF_GROUP_AUTHORITIES_BY_USERNAME_QUERY = (사용자 그룹과 그룹 권한을 찾기)
+		// select g.id, g.group_name, ga.authority" +
+		// from authorities g, group_members gm, group_authorities ga" +
+		// where gm.username =?" +
+		// and g.id = ga.group_id" +
+		// and g.id = gm.group_id;
 		// 사용자 정보는 users 테이블, 권한은 authorities 테이블에, 그룹 사용자는 group_members 테이블에
 		// 그룹 권한은 group_authorities 테이블에 있다. 
 	}
