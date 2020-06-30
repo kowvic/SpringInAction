@@ -20,18 +20,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-		 .antMatchers("/design", "/orders")
-		  .access("hasRole('ROLE_USER')")
-		 .antMatchers("/", "/**")
-		  .access("permitAll")
+		 .antMatchers("/design", "/orders").access("hasRole('ROLE_USER')")
+		 .antMatchers("/", "/**").access("permitAll")
+		 .antMatchers("/h2-console/*").access("permaitAll")
 		.and()
-		 .formLogin()
-		  .loginPage("/login")
+		 .formLogin().loginPage("/login")
 		.and()
-		 .logout()
-		   .logoutSuccessUrl("/")
+		 .logout().logoutSuccessUrl("/")
 		.and()
-		  .csrf();
+		 .headers().frameOptions().disable()
+		.and()
+		  .csrf().disable();
 		/*
 		 * .authorizeRequests()
 			.antMatchers("/", "/**")

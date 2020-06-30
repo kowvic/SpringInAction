@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h1>Login</h1>
-	<img th:src="@{imges/TacoCloud.png}"/>
+	<img th:src="@{/images/SubwayLogo.jpg}"/>
 	
 	<div th:if="${error}">
 		Unable to login. Check your username and password.
@@ -18,6 +18,7 @@
 			
 	<!-- tag::thAction[] -->
 	<form method="POST" th:action="@{/login}" id="loginForm">
+	<!-- end::thAction[] -->
 		<label for="username">Username: </label>
 		<input type="text" name="username" id="username"/><br/>
 		<label for="password">Password: </label>
