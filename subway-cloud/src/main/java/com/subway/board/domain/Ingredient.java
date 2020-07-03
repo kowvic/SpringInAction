@@ -3,7 +3,7 @@ package com.subway.board.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 
 import lombok.AccessLevel;
 import lombok.Data;

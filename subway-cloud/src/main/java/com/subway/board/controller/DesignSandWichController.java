@@ -2,7 +2,6 @@ package com.subway.board.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +26,6 @@ import com.subway.data.UserRepository;
 import com.subway.board.domain.Ingredient.Type;
 import com.subway.board.domain.Order;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j	//컴파일 시 lombok이 제공되며 이 클래스에 Logger를 생성한다.
 @Controller	//컨트롤러
 @RequestMapping("/design")	//다목적 요청을 처리하는 애노테이션. 클래스 수준에서 적용될 떄는 해당 컨트롤러가 처리하는 요청의 종류를 나타낸다.
 @SessionAttributes("order")
